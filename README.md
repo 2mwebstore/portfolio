@@ -141,7 +141,7 @@ login, so editing one client's content never affects another. For example:
 
 | Site    | Domains                  | Data folder                |
 |---------|--------------------------|----------------------------|
-| `portfolio` | portfolio.net, www.portfolio.net   | `/opt/portfolio.net/data/portfolio` |
+| `portfolio` | portfolio.net, www.portfolio.net   | `/opt/portfolio/data/portfolio` |
 
 How it fits together: the repo builds one Docker image, `portfolio-app` (the Go
 API serves `/api`, `/uploads` and the built Vue frontend). Each site runs its
@@ -151,22 +151,22 @@ nginx is the public web server and sends each domain to its site's port
 (`deploy/nginx.conf` is the template). Certbot provides free HTTPS
 certificates and renews them automatically.
 
-**Sharing a Droplet with bp24 (or another project):** this project can run on
-the same Droplet as bp24. Its image (`portfolio-app`), containers and nginx
-files (`portfolio-<name>`) and ports (from 8101; bp24 uses 8081 up) are all
+**Sharing a Droplet with portfolio (or another project):** this project can run on
+the same Droplet as portfolio. Its image (`portfolio-app`), containers and nginx
+files (`portfolio-<name>`) and ports (from 8101; portfolio uses 8081 up) are all
 separate, so the two projects never overwrite each other's sites, even when a
 site has the same name in both. Each project deploys only its own sites.
 
 1. **Create a Droplet** on [digitalocean.com](https://www.digitalocean.com):
    Ubuntu 24.04. 1 GB of RAM ($6/month) runs several sites, since each one
    uses little memory. Add your SSH key. Skip this if you're using the
-   Droplet that already runs bp24.
+   Droplet that already runs portfolio.
 2. **Point every client domain at it**: for each domain, create a DNS `A`
    record (and one for `www` if you want it) with the Droplet's IP address.
 3. **SSH in and get the code**. The repo is private, so give the Droplet
    read-only access with a deploy key for this repo. GitHub allows each deploy
    key on only one repo, so this one gets its own key even if the Droplet
-   already pulls bp24:
+   already pulls portfolio:
    ```bash
    ssh root@YOUR_DROPLET_IP
    ssh-keygen -t ed25519 -N "" -f ~/.ssh/portfolio_deploy
@@ -183,12 +183,12 @@ site has the same name in both. Each project deploys only its own sites.
      IdentitiesOnly yes
    EOF
    ssh-keyscan github.com >> ~/.ssh/known_hosts
-   git clone git@github-portfolio:2mwebstore/portfolio.net.git /opt/portfolio.net
-   cd /opt/portfolio.net
+   git clone git@github-portfolio:2mwebstore/portfolio.git /opt/portfolio
+   cd /opt/portfolio
    ```
 4. **Set up the server** (one time per Droplet). This installs Docker, nginx
    and certbot, opens the firewall for SSH/HTTP/HTTPS and adds swap. If the
-   Droplet already runs bp24 this was done already, but running it again is
+   Droplet already runs portfolio this was done already, but running it again is
    harmless:
    ```bash
    bash deploy/setup-droplet.sh
@@ -213,7 +213,7 @@ site has the same name in both. Each project deploys only its own sites.
 7. For each site, open `https://<domain>/admin/login`, log in as `admin` with
    the printed password, and change it from the Password tab. Every new site
    starts with the placeholder content; replace it in that site's admin panel.
-8. **Turn on auto-deploy** (one time only), from `/opt/portfolio.net`:
+8. **Turn on auto-deploy** (one time only), from `/opt/portfolio`:
    ```bash
    bash deploy/setup-auto-deploy.sh
    ```
@@ -229,16 +229,16 @@ workflow (`.github/workflows/deploy.yml`) connects to the Droplet and runs
 site on the new version. Follow it in the repo's Actions tab: a red ❌ means
 the deploy failed, and its log shows why. To redeploy without a push, use
 Actions → Deploy to Droplet → Run workflow, or run
-`cd /opt/portfolio.net && bash deploy/update.sh` on the Droplet. Don't edit code
+`cd /opt/portfolio && bash deploy/update.sh` on the Droplet. Don't edit code
 directly on the Droplet, or the next `git pull` will fail.
 
-**Logs:** `docker logs -f portfolio-portfolio-app-1` for a site (replace the middle
+**Logs:** `docker logs -f portfolio-app-1` for a site (replace the middle
 `portfolio` with the site name), `/var/log/nginx/error.log` for nginx.
 
 **Removing a site:**
 ```bash
-docker compose -p portfolio-portfolio --env-file sites/portfolio.env down
-rm /etc/nginx/sites-enabled/portfolio-portfolio && systemctl reload nginx
+docker compose -p portfolio --env-file sites/portfolio.env down
+rm /etc/nginx/sites-enabled/portfolio && systemctl reload nginx
 ```
 Its data stays in `data/portfolio` until you delete that folder.
 
