@@ -270,3 +270,21 @@ git commit -m "Initial commit: car rental directory ready for Railway"
 git branch -M main
 git remote add origin https://github.com/chansila5555-oss/vp168.git
 git push -u origin main
+
+
+setup new 
+
+<!--
+step 1 
+
+bash deploy/add-site.sh vr7777 vr7777.fun www.vr7777.fun 
+
+step 2
+bash certbot --nginx -d vr7777.fun -d www.vr7777.fun
+
+step 3
+docker ps --format '{{.Names}}  {{.Ports}}'
+ls /opt/portfolio/sites/
+grep -H -E "server_name|proxy_pass" /etc/nginx/sites-enabled/*
+
+-->

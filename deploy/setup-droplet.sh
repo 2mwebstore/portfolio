@@ -4,6 +4,7 @@
 # the image can build on a 1 GB Droplet. Then add each client with
 # deploy/add-site.sh. Run as root:  bash deploy/setup-droplet.sh
 set -euo pipefail
+cd "$(dirname "$0")/.."
 
 if ! command -v docker >/dev/null; then
   curl -fsSL https://get.docker.com | sh
@@ -12,6 +13,9 @@ fi
 apt-get update
 apt-get install -y nginx certbot python3-certbot-nginx
 rm -f /etc/nginx/sites-enabled/default
+cp deploy/nginx-catch-all.conf /etc/nginx/sites-available/catch-all
+ln -sf /etc/nginx/sites-available/catch-all /etc/nginx/sites-enabled/catch-all
+nginx -t
 systemctl reload nginx
 
 ufw allow OpenSSH
