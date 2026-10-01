@@ -272,19 +272,47 @@ git remote add origin https://github.com/chansila5555-oss/vp168.git
 git push -u origin main
 
 
-setup new 
 
-<!--
-step 1 
 
-bash deploy/add-site.sh vr7777 vr7777.fun www.vr7777.fun 
+## Add a new client (quick steps)
 
-step 2
-bash certbot --nginx -d vr7777.fun -d www.vr7777.fun
+Example: client `ba889` with domain `ba889.fun`. Replace both with the new
+client's name and domain.
 
-step 3
+**Step 1: add the site** (on the Droplet)
+```bash
+cd /opt/portfolio
+bash deploy/add-site.sh sb99 sb99.pro www.sb99.pro
+```
+
+**Step 2: point the domain at the Droplet** (Cloudflare → ba889.fun → DNS)
+- `A` record `@` → Droplet IP, Proxied (orange cloud)
+- `A` record `www` → Droplet IP, Proxied (orange cloud)
+
+**Step 3: turn on HTTPS** (on the Droplet, after step 2)
+```bash
+certbot --nginx -d sb99.pro -d www.sb99.pro
+```
+Then in Cloudflare → SSL/TLS, set the mode to **Full (strict)**.
+
+**Step 4: check**
+```bash
 docker ps --format '{{.Names}}  {{.Ports}}'
 ls /opt/portfolio/sites/
 grep -H -E "server_name|proxy_pass" /etc/nginx/sites-enabled/*
+```
+You should see the container `portfolio-ba889-app-1`, the file `ba889.env`, and
+the nginx file `portfolio-ba889` with its own port.
 
--->
+**Step 5: log in** at `https://ba889.fun/admin/login` as `admin` / `123123123`,
+change the password, and add the client's content.
+
+**One time only (already done if the Droplet has it):** the catch-all stops a
+new domain from showing another client's site before step 3. Check with
+`ls /etc/nginx/sites-enabled/catch-all`; if it's missing, run:
+```bash
+cd /opt/portfolio
+cp deploy/nginx-catch-all.conf /etc/nginx/sites-available/catch-all
+ln -sf /etc/nginx/sites-available/catch-all /etc/nginx/sites-enabled/catch-all
+nginx -t && systemctl reload nginx
+```

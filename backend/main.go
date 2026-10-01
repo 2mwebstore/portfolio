@@ -169,7 +169,7 @@ func seedData() {
 			FacebookColor:   "#16294f",
 			BannerImageURL:  "#",
 			BannerLink:      "#",
-			BackgroundColor: "#ffffff",
+			BackgroundColor: "#4d4d4d",
 			FooterNote:      "ក្រុមហ៊ុន [ BA889 ] សូមស្វាគមន៍🙏 អតិថិជនកំសាន្តដោយទំនុកចិត្ត១០០%🎲",
 		})
 	}
@@ -177,10 +177,10 @@ func seedData() {
 	db.Model(&Partner{}).Count(&count)
 	if count == 0 {
 		partners := []Partner{
-			{Name: "SB24", LogoURL: "/", MediaImageURL: "", Link: "https://aamm24.win/login", Detail: "មាន់ជល់ច្រើនប៉ុស៍ ហាងឆេងខ្ពស់ ភាគរយឈ្នះច្រើន មាននៅ SB24", SortOrder: 1},
-			{Name: "LOTTO8888", LogoURL: "/", MediaImageURL: "", Link: "https://today8888.net/", Detail: "គ្រាន់តែចុះឈ្មោះបង្កើតអាខោន និងកំសាន្តជាមួយ ឡូតូ8888 ក៏មានឪកាស់ឈ្នះប្រាក់យ៉ាងច្រើនសន្ធឹកសន្ធាប់", SortOrder: 1},
-			{Name: "SBC369", LogoURL: "/", MediaImageURL: "", Link: "https://cat369.com/", Detail: "ជាគេហទំព័រកំសាន្ដអនឡាញ ដែលទទួលបាននូវការជឿទុកចិត្តខ្ពស់។", SortOrder: 1},
-			{Name: "LOTTO5D", LogoURL: "/", MediaImageURL: "", Link: "https://kh5d.vip/", Detail: "គ្រាន់តែចុះឈ្មោះបង្កើតអាខោន និងកំសាន្តជាមួយ ឡូតូ5D ក៏មានឪកាស់ឈ្នះប្រាក់យ៉ាងច្រើនសន្ធឹកសន្ធាប់", SortOrder: 1},
+			{Name: "SB24", LogoURL: "https://res.cloudinary.com/dzfrjxhvl/image/upload/v1722498213/sb24-logo_rmx3fd.png", MediaImageURL: "", Link: "https://aamm24.win/login", Detail: "មាន់ជល់ច្រើនប៉ុស៍ ហាងឆេងខ្ពស់ ភាគរយឈ្នះច្រើន មាននៅ SB24", SortOrder: 1},
+			{Name: "LOTTO8888", LogoURL: "https://landing-v1.2m-sy.com/images/lotto-logo.png", MediaImageURL: "", Link: "https://today8888.net/", Detail: "គ្រាន់តែចុះឈ្មោះបង្កើតអាខោន និងកំសាន្តជាមួយ ឡូតូ8888 ក៏មានឪកាស់ឈ្នះប្រាក់យ៉ាងច្រើនសន្ធឹកសន្ធាប់", SortOrder: 1},
+			{Name: "SBC369", LogoURL: "https://landing-v1.2m-sy.com/images/sbc369-ogo.png", MediaImageURL: "", Link: "https://cat369.com/", Detail: "ជាគេហទំព័រកំសាន្ដអនឡាញ ដែលទទួលបាននូវការជឿទុកចិត្តខ្ពស់។", SortOrder: 1},
+			{Name: "LOTTO5D", LogoURL: "https://iili.io/n9S3mn1.png", MediaImageURL: "", Link: "https://kh5d.vip/", Detail: "គ្រាន់តែចុះឈ្មោះបង្កើតអាខោន និងកំសាន្តជាមួយ ឡូតូ5D ក៏មានឪកាស់ឈ្នះប្រាក់យ៉ាងច្រើនសន្ធឹកសន្ធាប់", SortOrder: 1},
 		}
 		db.Create(&partners)
 	}
