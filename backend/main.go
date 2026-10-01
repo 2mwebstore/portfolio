@@ -157,7 +157,7 @@ func seedData() {
 	db.Model(&SiteConfig{}).Count(&count)
 	if count == 0 {
 		db.Create(&SiteConfig{
-			SiteName:        "VP168 OFFICIAL",
+			SiteName:        "Portfolio OFFICIAL",
 			LogoURL:         "https://imagedelivery.net/NG23G0bfLLwjBy-wmkJ4Aw/52249037-776c-4fa0-d4af-5a635322d200/public",
 			TelegramLabel:   "តេលេក្រាមផ្លូវការ",
 			TelegramURL:     "https://t.me/yourchannel",
@@ -177,9 +177,7 @@ func seedData() {
 	db.Model(&Partner{}).Count(&count)
 	if count == 0 {
 		partners := []Partner{
-			{Name: "SB24", LogoURL: "https://res.cloudinary.com/dzfrjxhvl/image/upload/v1722498213/sb24-logo_rmx3fd.png", MediaImageURL: "https://res.cloudinary.com/dzfrjxhvl/image/upload/v1722498215/sb24_hazko8.jpg", Link: "https://aamm24.win/login", Detail: "មាន់ជល់ច្រើនប៉ុស៍ ហាងឆេងខ្ពស់ ភាគរយឈ្នះច្រើន មាននៅ SB24", SortOrder: 1},
-			{Name: "Lotto8888", LogoURL: "https://landing-v1.2m-sy.com/images/lotto-logo.png", MediaImageURL: "https://landing-v1.2m-sy.com/images/lotto-bg.png", Link: "https://today8888.net/", Detail: "គ្រាន់តែចុះឈ្មោះបង្កើតអាខោន និងកំសាន្តជាមួយ ឡូតូ8888 ក៏មានឪកាស់ឈ្នះប្រាក់យ៉ាងច្រើនសន្ធឹកសន្ធាប់", SortOrder: 2},
-			{Name: "SBC369", LogoURL: "https://landing-v1.2m-sy.com/images/sbc369-ogo.png", MediaImageURL: "#", Link: "https://cat369.com/", Detail: "ជាគេហទំព័រកំសាន្ដអនឡាញ ដែលទទួលបាននូវការជឿទុកចិត្តខ្ពស់។", SortOrder: 3},
+			{Name: "Car", LogoURL: "/", MediaImageURL: "", Link: "/", Detail: "/", SortOrder: 1},
 		}
 		db.Create(&partners)
 	}
@@ -200,9 +198,7 @@ func seedData() {
 	db.Model(&Banner{}).Count(&count)
 	if count == 0 {
 		banners := []Banner{
-			{ImageURL: "https://vp-168.com/uploads/1785423756332313107.jpg", Link: "#", SortOrder: 1, Active: true},
-			{ImageURL: "https://imagedelivery.net/NG23G0bfLLwjBy-wmkJ4Aw/25b85533-7fc1-429f-d87f-dc572ea4b400/public", Link: "#", SortOrder: 2, Active: true},
-			{ImageURL: "https://vp-168.com/uploads/1785422722850879222.jpg", Link: "#", SortOrder: 3, Active: true},
+			{ImageURL: "/", Link: "#", SortOrder: 1, Active: true},
 		}
 		db.Create(&banners)
 	}
