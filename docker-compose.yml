@@ -1,10 +1,10 @@
-# One copy of this runs per client site (compose project = site name), each
+# One copy of this runs per client site (compose project = net97co-<name>), each
 # with its own settings in sites/<name>.env and its own data folder.
 # deploy/add-site.sh creates a site; deploy/update.sh restarts them all.
 services:
   app:
     # Built once by the deploy scripts and shared by every site.
-    image: car-rental-app
+    image: net97co-app
     pull_policy: never
     restart: unless-stopped
     environment:

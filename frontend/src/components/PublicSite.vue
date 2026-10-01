@@ -72,14 +72,14 @@ onMounted(loadData)
     <div class="wrap">
       <div class="social-row">
         <a class="social-item" :href="config.telegram_url" target="_blank" rel="noopener">
-          <div class="social-label">តេលេក្រាមផ្លូវការ</div>
+          <div class="social-label">{{ config.telegram_label || 'តេលេក្រាមផ្លូវការ' }}</div>
           <div class="social-icon">
             <img v-if="config.telegram_icon_url" :src="config.telegram_icon_url" alt="" />
             <span v-else>✈</span>
           </div>
         </a>
         <a class="social-item" :href="config.facebook_url" target="_blank" rel="noopener">
-          <div class="social-label">ហ្វេសប៊ុកផ្លូវការ</div>
+          <div class="social-label">{{ config.facebook_label || 'ហ្វេសប៊ុកផ្លូវការ' }}</div>
           <div class="social-icon">
             <img v-if="config.facebook_icon_url" :src="config.facebook_icon_url" alt="" />
             <span v-else>f</span>
@@ -132,17 +132,35 @@ onMounted(loadData)
           <div v-if="bankIcons.length">
             <div class="icon-group-label">ធនាគារ</div>
             <div class="icon-row">
-              <div class="icon-chip" v-for="icon in bankIcons" :key="icon.id" :title="icon.name">
+              <component
+                :is="icon.link ? 'a' : 'div'"
+                class="icon-chip"
+                v-for="icon in bankIcons"
+                :key="icon.id"
+                :title="icon.name"
+                :href="icon.link || undefined"
+                :target="icon.link ? '_blank' : undefined"
+                :rel="icon.link ? 'noopener' : undefined"
+              >
                 <img :src="icon.icon_url" :alt="icon.name" />
-              </div>
+              </component>
             </div>
           </div>
           <div v-if="socialIcons.length">
             <div class="icon-group-label">បណ្ដាញសង្គម</div>
             <div class="icon-row">
-              <div class="icon-chip" v-for="icon in socialIcons" :key="icon.id" :title="icon.name">
+              <component
+                :is="icon.link ? 'a' : 'div'"
+                class="icon-chip"
+                v-for="icon in socialIcons"
+                :key="icon.id"
+                :title="icon.name"
+                :href="icon.link || undefined"
+                :target="icon.link ? '_blank' : undefined"
+                :rel="icon.link ? 'noopener' : undefined"
+              >
                 <img :src="icon.icon_url" :alt="icon.name" />
-              </div>
+              </component>
             </div>
           </div>
         </div>

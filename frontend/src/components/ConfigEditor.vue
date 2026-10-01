@@ -48,36 +48,52 @@ onMounted(load)
       </div>
     </div>
 
-    <div class="admin-row">
-      <div class="admin-field">
-        <label>Telegram URL</label>
-        <input v-model="form.telegram_url" placeholder="https://t.me/yourchannel" />
+    <h3 class="section-heading">Social buttons</h3>
+    <div class="social-panels">
+      <div class="social-panel">
+        <div class="panel-head">
+          <img v-if="form.telegram_icon_url" :src="form.telegram_icon_url" alt="" />
+          <span>Telegram</span>
+        </div>
+        <div class="admin-field">
+          <label>Title</label>
+          <input v-model="form.telegram_label" placeholder="តេលេក្រាមផ្លូវការ" />
+        </div>
+        <div class="admin-field">
+          <label>Link</label>
+          <input v-model="form.telegram_url" placeholder="https://t.me/yourchannel" />
+        </div>
+        <div class="admin-field">
+          <label>Icon URL</label>
+          <input v-model="form.telegram_icon_url" placeholder="/uploads/telegram.png" />
+        </div>
+        <div class="admin-field">
+          <label>Button color</label>
+          <input v-model="form.telegram_color" type="color" class="color-input" />
+        </div>
       </div>
-      <div class="admin-field">
-        <label>Facebook URL</label>
-        <input v-model="form.facebook_url" placeholder="https://facebook.com/yourpage" />
-      </div>
-    </div>
 
-    <div class="admin-row">
-      <div class="admin-field">
-        <label>Telegram icon URL</label>
-        <input v-model="form.telegram_icon_url" placeholder="/uploads/telegram.png" />
-      </div>
-      <div class="admin-field">
-        <label>Telegram button color</label>
-        <input v-model="form.telegram_color" type="color" style="height:38px; padding:2px;" />
-      </div>
-    </div>
-
-    <div class="admin-row">
-      <div class="admin-field">
-        <label>Facebook icon URL</label>
-        <input v-model="form.facebook_icon_url" placeholder="/uploads/facebook.png" />
-      </div>
-      <div class="admin-field">
-        <label>Facebook button color</label>
-        <input v-model="form.facebook_color" type="color" style="height:38px; padding:2px;" />
+      <div class="social-panel">
+        <div class="panel-head">
+          <img v-if="form.facebook_icon_url" :src="form.facebook_icon_url" alt="" />
+          <span>Facebook</span>
+        </div>
+        <div class="admin-field">
+          <label>Title</label>
+          <input v-model="form.facebook_label" placeholder="ហ្វេសប៊ុកផ្លូវការ" />
+        </div>
+        <div class="admin-field">
+          <label>Link</label>
+          <input v-model="form.facebook_url" placeholder="https://facebook.com/yourpage" />
+        </div>
+        <div class="admin-field">
+          <label>Icon URL</label>
+          <input v-model="form.facebook_icon_url" placeholder="/uploads/facebook.png" />
+        </div>
+        <div class="admin-field">
+          <label>Button color</label>
+          <input v-model="form.facebook_color" type="color" class="color-input" />
+        </div>
       </div>
     </div>
 
@@ -119,4 +135,12 @@ onMounted(load)
 
 <style scoped>
 .hint{ color: var(--text-dim); font-size: 13px; margin-top: -4px; }
+.section-heading{ font-size: 14px; color: var(--text); margin: 6px 0 10px; }
+.social-panels{ display:grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 16px; }
+@media (max-width: 560px){ .social-panels{ grid-template-columns: 1fr; } }
+.social-panel{ border: 1px solid var(--border); border-radius: 8px; padding: 14px; background: #fafbfc; }
+.social-panel .admin-field:last-child{ margin-bottom: 0; }
+.panel-head{ display:flex; align-items:center; gap: 8px; font-weight: 600; font-size: 14px; margin-bottom: 12px; }
+.panel-head img{ width: 24px; height: 24px; border-radius: 50%; object-fit: cover; }
+.color-input{ height: 38px; padding: 2px !important; cursor: pointer; }
 </style>

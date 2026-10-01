@@ -18,9 +18,11 @@ type SiteConfig struct {
 	ID                 uint   `gorm:"primaryKey" json:"id"`
 	SiteName           string `json:"site_name"`
 	LogoURL            string `json:"logo_url"`
+	TelegramLabel      string `json:"telegram_label"`
 	TelegramURL        string `json:"telegram_url"`
 	TelegramIconURL    string `json:"telegram_icon_url"`
 	TelegramColor      string `json:"telegram_color"`
+	FacebookLabel      string `json:"facebook_label"`
 	FacebookURL        string `json:"facebook_url"`
 	FacebookIconURL    string `json:"facebook_icon_url"`
 	FacebookColor      string `json:"facebook_color"`
@@ -47,6 +49,7 @@ type PaymentIcon struct {
 	ID        uint   `gorm:"primaryKey" json:"id"`
 	Name      string `json:"name"`
 	IconURL   string `json:"icon_url"`
+	Link      string `json:"link"`
 	Category  string `json:"category"`
 	SortOrder int    `json:"sort_order"`
 }
