@@ -235,6 +235,7 @@ directly on the Droplet, or the next `git pull` will fail.
 **Logs:** `docker logs -f portfolio-app-1` for a site (replace the middle
 `portfolio` with the site name), `/var/log/nginx/error.log` for nginx.
 
+
 **Removing a site:**
 ```bash
 docker compose -p portfolio --env-file sites/portfolio.env down
