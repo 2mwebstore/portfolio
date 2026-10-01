@@ -1,14 +1,14 @@
 #!/usr/bin/env bash
 # Add a client site: its own database, uploads, admin login and domain(s),
 # all running from this one codebase. Run as root from the repo folder:
-#   bash deploy/add-site.sh net97 net97.co www.net97.co
+#   bash deploy/add-site.sh portfolio portfolio.net www.portfolio.net
 set -euo pipefail
 cd "$(dirname "$0")/.."
 
 name="${1:-}"
 if [[ ! "$name" =~ ^[a-z0-9][a-z0-9_-]*$ ]] || [ $# -lt 2 ]; then
   echo "usage: bash deploy/add-site.sh <name> <domain> [more domains...]" >&2
-  echo "  <name> is lowercase letters, numbers, - or _ (e.g. net97)" >&2
+  echo "  <name> is lowercase letters, numbers, - or _ (e.g. portfolio)" >&2
   exit 1
 fi
 shift
@@ -22,7 +22,7 @@ fi
 # The container and nginx site are prefixed with this project's name, so a
 # same-named site from another project on this Droplet (e.g. bp24) can't
 # replace them.
-project="net97co-$name"
+project="portfolio-$name"
 
 # Each site gets its own local port. Starting at 8101 keeps clear of other
 # projects on this Droplet (bp24 starts at 8081), and ports already in use
@@ -57,7 +57,7 @@ fi
 nginx -t
 systemctl reload nginx
 
-docker image inspect net97co-app >/dev/null 2>&1 || docker build -t net97co-app .
+docker image inspect portfolio-app >/dev/null 2>&1 || docker build -t portfolio-app .
 docker compose -p "$project" --env-file "$env_file" up -d
 
 echo

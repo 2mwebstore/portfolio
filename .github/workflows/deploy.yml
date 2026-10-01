@@ -25,6 +25,13 @@ jobs:
           DROPLET_SSH_KEY: ${{ secrets.DROPLET_SSH_KEY }}
           DROPLET_KNOWN_HOSTS: ${{ secrets.DROPLET_KNOWN_HOSTS }}
         run: |
+          for name in DROPLET_HOST DROPLET_KNOWN_HOSTS DROPLET_SSH_KEY; do
+            if [ -z "${!name}" ]; then
+              echo "::error::Repository secret $name is not set. Run deploy/setup-auto-deploy.sh on the Droplet and add the values it prints under Settings -> Secrets and variables -> Actions -> Secrets -> New repository secret."
+              missing=1
+            fi
+          done
+          [ -z "${missing:-}" ] || exit 1
           install -m 700 -d ~/.ssh
           printf '%s\n' "$DROPLET_SSH_KEY" > ~/.ssh/deploy_key
           chmod 600 ~/.ssh/deploy_key

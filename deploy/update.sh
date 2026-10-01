@@ -6,9 +6,9 @@ set -euo pipefail
 cd "$(dirname "$0")/.."
 
 git pull --ff-only
-docker build -t net97co-app .
+docker build -t portfolio-app .
 for env_file in sites/*.env; do
   [ -f "$env_file" ] || continue
-  docker compose -p "net97co-$(basename "$env_file" .env)" --env-file "$env_file" up -d
+  docker compose -p "portfolio-$(basename "$env_file" .env)" --env-file "$env_file" up -d
 done
 docker image prune -f

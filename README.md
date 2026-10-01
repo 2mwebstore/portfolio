@@ -141,9 +141,9 @@ login, so editing one client's content never affects another. For example:
 
 | Site    | Domains                  | Data folder                |
 |---------|--------------------------|----------------------------|
-| `net97` | net97.co, www.net97.co   | `/opt/net97.co/data/net97` |
+| `portfolio` | portfolio.net, www.portfolio.net   | `/opt/portfolio.net/data/portfolio` |
 
-How it fits together: the repo builds one Docker image, `net97co-app` (the Go
+How it fits together: the repo builds one Docker image, `portfolio-app` (the Go
 API serves `/api`, `/uploads` and the built Vue frontend). Each site runs its
 own container from that image on a private port (`127.0.0.1:8101`, `8102`, …),
 using `docker-compose.yml` with the site's settings from `sites/<name>.env`.
@@ -152,8 +152,8 @@ nginx is the public web server and sends each domain to its site's port
 certificates and renews them automatically.
 
 **Sharing a Droplet with bp24 (or another project):** this project can run on
-the same Droplet as bp24. Its image (`net97co-app`), containers and nginx
-files (`net97co-<name>`) and ports (from 8101; bp24 uses 8081 up) are all
+the same Droplet as bp24. Its image (`portfolio-app`), containers and nginx
+files (`portfolio-<name>`) and ports (from 8101; bp24 uses 8081 up) are all
 separate, so the two projects never overwrite each other's sites, even when a
 site has the same name in both. Each project deploys only its own sites.
 
@@ -169,22 +169,22 @@ site has the same name in both. Each project deploys only its own sites.
    already pulls bp24:
    ```bash
    ssh root@YOUR_DROPLET_IP
-   ssh-keygen -t ed25519 -N "" -f ~/.ssh/net97co_deploy
-   cat ~/.ssh/net97co_deploy.pub
+   ssh-keygen -t ed25519 -N "" -f ~/.ssh/portfolio_deploy
+   cat ~/.ssh/portfolio_deploy.pub
    ```
-   On GitHub, open the net97.co repo → Settings → Deploy keys → Add deploy
+   On GitHub, open the portfolio.net repo → Settings → Deploy keys → Add deploy
    key, paste the printed line, and leave "Allow write access" off. Then tell
    SSH to use that key for this repo, and clone:
    ```bash
    cat >> ~/.ssh/config <<'EOF'
-   Host github-net97co
+   Host github-portfolio
      HostName github.com
-     IdentityFile ~/.ssh/net97co_deploy
+     IdentityFile ~/.ssh/portfolio_deploy
      IdentitiesOnly yes
    EOF
    ssh-keyscan github.com >> ~/.ssh/known_hosts
-   git clone git@github-net97co:2mwebstore/net97.co.git /opt/net97.co
-   cd /opt/net97.co
+   git clone git@github-portfolio:2mwebstore/portfolio.net.git /opt/portfolio.net
+   cd /opt/portfolio.net
    ```
 4. **Set up the server** (one time per Droplet). This installs Docker, nginx
    and certbot, opens the firewall for SSH/HTTP/HTTPS and adds swap. If the
@@ -195,7 +195,7 @@ site has the same name in both. Each project deploys only its own sites.
    ```
 5. **Add each client site**: give it a short name, then its domains:
    ```bash
-   bash deploy/add-site.sh net97 net97.co www.net97.co
+   bash deploy/add-site.sh portfolio portfolio.net www.portfolio.net
    ```
    Each run creates the site's settings in `sites/<name>.env` (a random
    `JWT_SECRET`, the admin password `123123123`, and its private port), sets
@@ -206,18 +206,18 @@ site has the same name in both. Each project deploys only its own sites.
 6. **Turn on HTTPS** for each site once its domain loads over HTTP, using the
    command `add-site.sh` printed:
    ```bash
-   certbot --nginx -d net97.co -d www.net97.co
+   certbot --nginx -d portfolio.net -d www.portfolio.net
    ```
    Certbot asks for an email the first time, adds the certificate to that
    site's nginx config, redirects HTTP to HTTPS, and renews automatically.
 7. For each site, open `https://<domain>/admin/login`, log in as `admin` with
    the printed password, and change it from the Password tab. Every new site
    starts with the placeholder content; replace it in that site's admin panel.
-8. **Turn on auto-deploy** (one time only), from `/opt/net97.co`:
+8. **Turn on auto-deploy** (one time only), from `/opt/portfolio.net`:
    ```bash
    bash deploy/setup-auto-deploy.sh
    ```
-   It prints three values. On GitHub, open the net97.co repo → Settings →
+   It prints three values. On GitHub, open the portfolio.net repo → Settings →
    Secrets and variables → Actions → New repository secret, and add each one
    with the name it's printed under: `DROPLET_HOST`, `DROPLET_KNOWN_HOSTS` and
    `DROPLET_SSH_KEY`. The key it creates can only run this project's
@@ -229,29 +229,29 @@ workflow (`.github/workflows/deploy.yml`) connects to the Droplet and runs
 site on the new version. Follow it in the repo's Actions tab: a red ❌ means
 the deploy failed, and its log shows why. To redeploy without a push, use
 Actions → Deploy to Droplet → Run workflow, or run
-`cd /opt/net97.co && bash deploy/update.sh` on the Droplet. Don't edit code
+`cd /opt/portfolio.net && bash deploy/update.sh` on the Droplet. Don't edit code
 directly on the Droplet, or the next `git pull` will fail.
 
-**Logs:** `docker logs -f net97co-net97-app-1` for a site (replace the middle
-`net97` with the site name), `/var/log/nginx/error.log` for nginx.
+**Logs:** `docker logs -f portfolio-portfolio-app-1` for a site (replace the middle
+`portfolio` with the site name), `/var/log/nginx/error.log` for nginx.
 
 **Removing a site:**
 ```bash
-docker compose -p net97co-net97 --env-file sites/net97.env down
-rm /etc/nginx/sites-enabled/net97co-net97 && systemctl reload nginx
+docker compose -p portfolio-portfolio --env-file sites/portfolio.env down
+rm /etc/nginx/sites-enabled/portfolio-portfolio && systemctl reload nginx
 ```
-Its data stays in `data/net97` until you delete that folder.
+Its data stays in `data/portfolio` until you delete that folder.
 
 **Upload size:** nginx accepts uploads up to 20 MB (`client_max_body_size` in
 `deploy/nginx.conf`). The live copy for each site is
-`/etc/nginx/sites-available/net97co-<name>`. Edit that copy on the Droplet,
+`/etc/nginx/sites-available/portfolio-<name>`. Edit that copy on the Droplet,
 then run `nginx -t && systemctl reload nginx`.
 
 **Data and backups:** each site's SQLite database and uploaded images are in
-`/opt/net97.co/data/<name>` on the Droplet (mounted at `/app/data` in its
+`/opt/portfolio.net/data/<name>` on the Droplet (mounted at `/app/data` in its
 container, where `DATA_DIR` points). Rebuilds and restarts never touch them.
 Back up every site at once by copying the `data` folder, e.g. from your own
-machine: `scp -r root@YOUR_DROPLET_IP:/opt/net97.co/data ./backup`, or turn on
+machine: `scp -r root@YOUR_DROPLET_IP:/opt/portfolio.net/data ./backup`, or turn on
 DigitalOcean's Droplet backups. `sites/` holds each site's secrets and first
 admin password, so keep it private.
 
