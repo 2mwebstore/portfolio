@@ -169,15 +169,18 @@ func seedData() {
 			FacebookColor:   "#16294f",
 			BannerImageURL:  "#",
 			BannerLink:      "#",
-			BackgroundColor: "#2da5e1",
-			FooterNote:      "Sell Car Group",
+			BackgroundColor: "#ffffff",
+			FooterNote:      "ក្រុមហ៊ុន [ BA889 ] សូមស្វាគមន៍🙏 អតិថិជនកំសាន្តដោយទំនុកចិត្ត១០០%🎲",
 		})
 	}
 
 	db.Model(&Partner{}).Count(&count)
 	if count == 0 {
 		partners := []Partner{
-			{Name: "Car", LogoURL: "/", MediaImageURL: "", Link: "/", Detail: "/", SortOrder: 1},
+			{Name: "SB24", LogoURL: "/", MediaImageURL: "", Link: "https://aamm24.win/login", Detail: "មាន់ជល់ច្រើនប៉ុស៍ ហាងឆេងខ្ពស់ ភាគរយឈ្នះច្រើន មាននៅ SB24", SortOrder: 1},
+			{Name: "LOTTO8888", LogoURL: "/", MediaImageURL: "", Link: "https://today8888.net/", Detail: "គ្រាន់តែចុះឈ្មោះបង្កើតអាខោន និងកំសាន្តជាមួយ ឡូតូ8888 ក៏មានឪកាស់ឈ្នះប្រាក់យ៉ាងច្រើនសន្ធឹកសន្ធាប់", SortOrder: 1},
+			{Name: "SBC369", LogoURL: "/", MediaImageURL: "", Link: "https://cat369.com/", Detail: "ជាគេហទំព័រកំសាន្ដអនឡាញ ដែលទទួលបាននូវការជឿទុកចិត្តខ្ពស់។", SortOrder: 1},
+			{Name: "LOTTO5D", LogoURL: "/", MediaImageURL: "", Link: "https://kh5d.vip/", Detail: "គ្រាន់តែចុះឈ្មោះបង្កើតអាខោន និងកំសាន្តជាមួយ ឡូតូ5D ក៏មានឪកាស់ឈ្នះប្រាក់យ៉ាងច្រើនសន្ធឹកសន្ធាប់", SortOrder: 1},
 		}
 		db.Create(&partners)
 	}
